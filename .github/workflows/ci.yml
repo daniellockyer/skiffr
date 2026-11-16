@@ -171,7 +171,8 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
-      - run: pnpm --filter e2e exec playwright install --with-deps chromium
+      # no --with-deps: the runner image already has chromium's libraries, apt would only add fonts no test renders
+      - run: pnpm --filter e2e exec playwright install chromium
       - run: pnpm --filter e2e e2e
         env:
           E2E_EXTENSION_DIR: ${{ runner.temp }}/extension
